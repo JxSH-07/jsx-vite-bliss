@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Header from './Header';
 
 // --- SVG Icons ---
 const PencilIcon = () => (
@@ -26,43 +27,6 @@ const SocialIcon = ({ type }) => {
     return icons[type] || null;
 };
 
-// This is the updated Header component using an SVG background
-const Header = () => (
-  <div className="relative h-48 md:h-52">
-    {/* The SVG is used as an image, stretching to cover the container */}
-    <img 
-      src="/23.svg" 
-      alt="Header background pattern" 
-      className="absolute inset-0 w-full h-full object-cover" 
-      onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/1200x208/E0E7FF/4F46E5?text=Header+Background'; }}
-    />
-    
-    {/* The rest of the header content is positioned on top */}
-    <div className="absolute top-24 md:top-28 left-0 right-0 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto flex items-end">
-        <div className="bg-white p-1 rounded-md shadow-lg">
-          <div className="h-20 w-20 md:h-24 md:w-24 bg-green-800 flex items-center justify-center rounded-sm">
-            <span className="text-white text-3xl font-bold">agdhi</span>
-          </div>
-        </div>
-        <div className="ml-4 -mb-1">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Agdhi Ventures</h1>
-          <p className="text-sm text-gray-600">Startup</p>
-          <span className="mt-1 inline-block bg-yellow-200 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">
-            Profile Created
-          </span>
-        </div>
-        <div className="ml-auto mb-2">
-          <button className="bg-white text-gray-700 hover:bg-gray-50 font-semibold py-2 px-4 border border-gray-300 rounded-lg shadow-sm flex items-center text-sm">
-            <PencilIcon />
-            Edit Profile
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
 
 const ProfileDashboard = () => {
   const [activeTab, setActiveTab] = useState('Overview');
@@ -70,29 +34,53 @@ const ProfileDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
-      {/* Use the new Header component */}
       <Header />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 md:pt-0">
+        {/* Company Info & Edit Button Section - Now responsive */}
+        <div className="flex flex-col sm:flex-row sm:items-end">
+          {/* Spacer for desktop */}
+          <div className="w-24 md:w-28 flex-shrink-0" />
+          
+          {/* Company Info */}
+          <div className="ml-0 sm:ml-5 mt-4 sm:mt-0 flex-grow"> 
+            <h1 className="text-xl lg:mt-auto sm:mt-10 sm:text-2xl font-bold text-gray-900">Agdhi Ventures</h1>
+            <p className="text-sm text-gray-600">Startup</p>
+            <span className="mt-1 inline-block bg-yellow-200 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">
+              Profile Created
+            </span>
+          </div>
+
+          {/* Edit Button */}
+          <div className="ml-0 sm:ml-auto mt-4 sm:mt-0 w-full sm:w-auto">
+            <button className="bg-white text-gray-700 hover:bg-gray-50 font-semibold py-2 px-4 border border-gray-300 rounded-lg shadow-sm flex items-center justify-center text-sm w-full">
+              <PencilIcon />
+              Edit Profile
+            </button>
+          </div>
+        </div>
+
         {/* Navigation */}
-        <nav className="bg-white border-b border-gray-200">
-          <div className="flex items-center h-16 mt-8">
-            <div className="flex items-baseline space-x-6">
-              {tabs.map((tab) => (
-                <a
-                  key={tab}
-                  href="#"
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-1 py-2 text-sm font-medium ${
-                    activeTab === tab
-                      ? 'text-blue-600 border-b-2 border-blue-600'
-                      : 'text-gray-500 hover:text-gray-700'
-                  }`}
-                >
-                  {tab}
-                  {tab === 'Engagements' && <span className="ml-2 bg-gray-200 text-gray-600 text-xs font-bold px-2 py-0.5 rounded-full">0</span>}
-                </a>
-              ))}
+        <nav className="bg-white border-b border-gray-200 mt-4">
+          <div className="overflow-x-auto">
+            <div className="flex items-center h-16 whitespace-nowrap">
+              <div className="flex items-baseline space-x-6">
+                {tabs.map((tab) => (
+                  <a
+                    key={tab}
+                    href="#"
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-1 py-2 text-sm font-medium ${
+                      activeTab === tab
+                        ? 'text-blue-600 border-b-2 border-blue-600'
+                        : 'text-gray-500 hover:text-gray-700'
+                    }`}
+                  >
+                    {tab}
+                    {tab === 'Engagements' && <span className="ml-2 bg-gray-200 text-gray-600 text-xs font-bold px-2 py-0.5 rounded-full">0</span>}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </nav>
@@ -103,9 +91,9 @@ const ProfileDashboard = () => {
             {/* Left Column */}
             <div className="lg:col-span-2 space-y-8">
               {/* Complete Profile Card */}
-              <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg flex items-center justify-between">
-                <div className="flex items-center">
-                  <button className="bg-white p-2 rounded-full border-2 border-gray-200 mr-4">
+              <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg flex flex-col sm:flex-row items-start sm:items-center justify-between">
+                <div className="flex items-center mb-4 sm:mb-0">
+                  <button className="bg-white p-2 rounded-full border-2 border-gray-200 mr-4 flex-shrink-0">
                     <ArrowRightIcon />
                   </button>
                   <div>
@@ -113,7 +101,7 @@ const ProfileDashboard = () => {
                     <p className="text-sm text-gray-600">Add Basic Details and complete profile. Only Completed profile can be engaged.</p>
                   </div>
                 </div>
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 self-center">
                   <img src="https://placehold.co/80x80/C4B5FD/3730A3?text=+" alt="Illustration" className="rounded-md" onError={(e) => e.target.src='https://placehold.co/80x80/E2E8F0/4A5568?text=Img'}/>
                 </div>
               </div>
